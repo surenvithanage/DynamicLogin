@@ -12,17 +12,25 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home Page</title>
     </head>
     <body>
        
-        Welcome 
-        <br/>
+        <h2 style="margin-bottom: 50px;">Welcome <%=request.getAttribute("username").toString().toUpperCase() %></h1>
+        
         <c:forEach var="item" items="${requestScope.details}">
             <a href="<c:out value="${item.getValue()}"/>"><c:out value="${item.getKey()}"/></a>
             <br/>
         </c:forEach>
+            
+        <%-- Method 2 
+        <c:forEach var="item" items="${data1}">
+            <a href="<c:out value="${item.getUrl()}"/>"><c:out value="${item.getName()}"/></a>
+            <br/>
+        </c:forEach>
+        --%>
         
+            
         
     </body>
 </html>

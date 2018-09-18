@@ -5,6 +5,7 @@
  */
 package com.login.dao;
 
+import com.login.bean.InterfaceBean;
 import com.login.bean.LoginBean;
 import com.login.util.DBConnection;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -24,6 +26,7 @@ import java.util.logging.Logger;
  */
 public class LoginDao {
     String rolePermission = "";
+    String User="";
     Connection con = null;
     Statement statement = null;
     ResultSet resultSet = null;
@@ -31,7 +34,7 @@ public class LoginDao {
     
     HashMap<String,String> interfaces = new HashMap<String,String>(); 
     
-    ArrayList list = new ArrayList();
+    ArrayList list = new ArrayList();     
     
     public String authenticateUser(LoginBean loginbean){
         String username = loginbean.getUsername();
@@ -53,6 +56,8 @@ public class LoginDao {
                 roleDB = resultSet.getString("r.rolename");
                                
                 if(username.equals(usernameDB) && password.equals(passwordDB)){
+                  
+                    loginbean.setRole(roleDB);
                     rolePermission = roleDB;
                 }
             }
@@ -60,35 +65,24 @@ public class LoginDao {
         } catch (SQLException ex) {
             Logger.getLogger(LoginDao.class.getName()).log(Level.SEVERE, null, ex);
         }  
+      
         return "Invalid Credentails";
     }
-    
-//    public ArrayList Pages(){
-//        String query = "SELECT i.name, i.url from role r , privilage p , interface i where r.roleid = p.roleid and p.interfaceid = i.interfaceid and r.rolename ='"+rolePermission+"'";
-//        try {
-//            resultSet = statement.executeQuery(query);
-//            while(resultSet.next()){
-//                list.add( resultSet.getString("i.url"));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoginDao.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//            return list;
-//    }
-    
-    
+ 
     public Map<String, String> Details(){
         try {
-            String query = "SELECT i.name, i.url from role r , privilage p , interface i where r.roleid = p.roleid and p.interfaceid = i.interfaceid and r.rolename ='"+rolePermission+"'";
+            String query = "SELECT i.interfaceid , i.name, i.url from role r , privilage p , interface i where r.roleid = p.roleid and p.interfaceid = i.interfaceid and r.rolename ='"+rolePermission+"'";
             resultSet = statement.executeQuery(query);
             
             while(resultSet.next()){
+                
                 interfaces.put(resultSet.getString("i.name"), resultSet.getString("i.url"));
+               
             }
             
-             for(Map.Entry m:interfaces.entrySet()){  
-                System.out.println(m.getKey()+" "+m.getValue());  
-                }  
+//             for(Map.Entry m:interfaces.entrySet()){  
+//                System.out.println(m.getKey()+" "+m.getValue());  
+//                }  
             
         } catch (SQLException ex) {
             Logger.getLogger(LoginDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,4 +90,26 @@ public class LoginDao {
             
          return interfaces;   
     }
+    
+   /* METHOD 2
+    public ArrayList<InterfaceBean> GetPages(){
+        ArrayList<InterfaceBean> al = new ArrayList<>();
+        try {
+            String query = "SELECT i.interfaceid , i.name, i.url from role r , privilage p , interface i where r.roleid = p.roleid and p.interfaceid = i.interfaceid and r.rolename ='"+rolePermission+"'";
+            resultSet = statement.executeQuery(query);
+            
+            while(resultSet.next()){
+                InterfaceBean i = new InterfaceBean(resultSet.getString("i.name"), resultSet.getString("i.url"), resultSet.getString("i.interfaceid"));
+              
+                al.add(i);
+            }
+  
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+         return al;  
+    }
+
+    */
 }

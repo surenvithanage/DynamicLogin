@@ -5,28 +5,18 @@
  */
 package com.login.connection;
 
-import com.login.bean.InterfaceBean;
-import com.login.bean.LoginBean;
-import com.login.dao.LoginDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author suren_v
  */
-public class LoginServlet extends HttpServlet {
+public class WithdrawServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +30,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        response.sendRedirect("withdraw.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,47 +60,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        ArrayList data;
-        Map<String ,String> x;
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        PrintWriter out = response.getWriter();  
-        
-        LoginBean loginBean = new LoginBean();
-        loginBean.setUsername(username);
-        loginBean.setPassword(password);
-         
-        LoginDao loginDao = new LoginDao();
-        
-        String role = loginDao.authenticateUser(loginBean);
-       
-         //Session
-        HttpSession session = request.getSession();
-        session.setAttribute("username",username);
-        request.setAttribute("username", username);
-        
-        x = loginDao.Details();
-        
-        /* METHOD 2
-        ArrayList<InterfaceBean> data1;
-        
-        data1 = loginDao.GetPages();
-        
-        request.setAttribute("data1", data1);
-        */
-        
-        request.setAttribute("details",x);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-        
-//        HashMap<String , String> result;
-//        result = (HashMap<String, String>) loginDao.Pages();
-//        
-//        result.entrySet().forEach((m) -> {
-//            //                out.println(m.getKey()+" "+m.getValue());
-//            out.println("<br/>"+"<a href='"+m.getValue()+"'</a>"+m.getKey()+"<br/><br/>");
-//            
-//        });
     }
 
     /**

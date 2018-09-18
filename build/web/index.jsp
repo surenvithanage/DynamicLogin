@@ -13,7 +13,7 @@
     </head>
     <body>
         <form method="post" action="LoginServlet">
-        <table align="center">
+            <table align="center" style="width: 50%" >
             <tr>
                 <td>Username</td>
                 <td><input type="text" name="username" placeholder="Username"/></td>
