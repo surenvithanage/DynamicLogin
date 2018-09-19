@@ -43,22 +43,30 @@ public class LoginDao {
         String usernameDB = "";
         String passwordDB = "";
         String roleDB = "";
+        String idDB = "";
+        String roleId = "";
         
         try {
             con = DBConnection.createConnection();
             statement =  con.createStatement();
-            String sql = "SELECT u.username , u.password , r.rolename FROM user u , role r where u.roleid = r.roleid ";
+            String sql = "SELECT u.userid ,u.username , u.password , r.rolename , r.roleid FROM user u , role r where u.roleid = r.roleid ";
             resultSet = statement.executeQuery(sql);
             
             while(resultSet.next()){
+                idDB = resultSet.getString("u.userid");
                 usernameDB = resultSet.getString("u.username");
                 passwordDB = resultSet.getString("u.password");
                 roleDB = resultSet.getString("r.rolename");
+                roleId = resultSet.getString("r.roleid");
                                
                 if(username.equals(usernameDB) && password.equals(passwordDB)){
-                  
+                    loginbean.setId(idDB);
                     loginbean.setRole(roleDB);
+                    loginbean.setRoleId(roleId);
                     rolePermission = roleDB;
+                    
+                    
+                    
                 }
             }
 
@@ -69,7 +77,7 @@ public class LoginDao {
         return "Invalid Credentails";
     }
  
-    public Map<String, String> Details(){
+/* METHOD 2    public Map<String, String> Details(){
         try {
             String query = "SELECT i.interfaceid , i.name, i.url from role r , privilage p , interface i where r.roleid = p.roleid and p.interfaceid = i.interfaceid and r.rolename ='"+rolePermission+"'";
             resultSet = statement.executeQuery(query);
@@ -91,7 +99,9 @@ public class LoginDao {
          return interfaces;   
     }
     
-   /* METHOD 2
+    */
+    
+ 
     public ArrayList<InterfaceBean> GetPages(){
         ArrayList<InterfaceBean> al = new ArrayList<>();
         try {
@@ -100,7 +110,6 @@ public class LoginDao {
             
             while(resultSet.next()){
                 InterfaceBean i = new InterfaceBean(resultSet.getString("i.name"), resultSet.getString("i.url"), resultSet.getString("i.interfaceid"));
-              
                 al.add(i);
             }
   
@@ -111,5 +120,5 @@ public class LoginDao {
          return al;  
     }
 
-    */
+   
 }

@@ -5,13 +5,26 @@
  */
 package com.login.connection;
 
+
+import com.login.bean.FunctionBean;
+import com.login.bean.LoginBean;
+
 import com.login.dao.DepositDao;
+import com.login.util.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,9 +44,19 @@ public class DepositServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DepositDao permissions = new DepositDao();
-        permissions.getPermissions();
-        response.sendRedirect("deposit.jsp");
+        String depositId = request.getParameter("param");
+        HttpSession session = request.getSession();
+        String roleId = session.getAttribute("roleID").toString();
+        
+        ArrayList<FunctionBean> data;
+        function f = new function();
+        
+        data = f.getFunction(roleId, depositId);
+        
+        request.setAttribute("data",data);
+        request.getRequestDispatcher("deposit.jsp").forward(request, response);
+    
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

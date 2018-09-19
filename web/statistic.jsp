@@ -13,5 +13,12 @@
     </head>
     <body>
         <h1>STATISTICS</h1>
+        
+                    <c:forEach var="item" items="${data}">
+                        <a href="<c:out value="${item.getUrl()}"></c:out>
+                        <c:out value="${item.getName()}"></c:out></a>
+                        <br/>
+                    </c:forEach>
+               
     </body>
 </html>

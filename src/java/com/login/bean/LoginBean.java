@@ -10,9 +10,27 @@ package com.login.bean;
  * @author suren_v
  */
 public class LoginBean {
+    String id;
     String username;
     String password;
     String role;
+    String roleId;
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;

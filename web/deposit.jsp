@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +13,15 @@
         <title>Deposit Page</title>
     </head>
     <body>
+        <jsp:include page="inc/sidebar.jsp" />
+         
         <h1>DEPOSITS</h1>
+       
+                    <c:forEach var="item" items="${data}">
+                        <a href="<c:out value="${item.getUrl()}"></c:out>">
+                        <c:out value="${item.getName()}"></c:out></a>
+                        <br/>
+                    </c:forEach>
+
     </body>
 </html>

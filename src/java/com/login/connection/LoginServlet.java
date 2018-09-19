@@ -90,18 +90,22 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("username",username);
         request.setAttribute("username", username);
         
-        x = loginDao.Details();
+        //When using hashmap
+//        x = loginDao.Details();
         
-        /* METHOD 2
+        
         ArrayList<InterfaceBean> data1;
         
         data1 = loginDao.GetPages();
         
         request.setAttribute("data1", data1);
-        */
+       
+        String roleID = loginBean.getRoleId();
         
-        request.setAttribute("details",x);
+        session.setAttribute("roleID", roleID);
+        request.setAttribute("details",data1);
         request.getRequestDispatcher("home.jsp").forward(request, response);
+        
         
 //        HashMap<String , String> result;
 //        result = (HashMap<String, String>) loginDao.Pages();
