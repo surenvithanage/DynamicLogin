@@ -13,12 +13,31 @@
         <title>Transfer Page</title>
     </head>
     <body>
-        <h1>TRANSFER</h1>
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <jsp:include page="inc/header.jsp"></jsp:include>
+               
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="sidebar">
+                    <jsp:include page="inc/sidebar.jsp" ></jsp:include>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <h1>TRANSFER</h1><br/><br/>
+                        <c:forEach var="item" items="${data}">
+                            <a class="btn btn-primary" href="<c:out value="${item.getUrl()}"></c:out>">
+                            <c:out value="${item.getName()}"></c:out></a>
+                            <br/><br/>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>   
+        </div>
         
-        <c:forEach var="item" items="${data}">
-            <a href="<c:out value="${item.getUrl()}"></c:out>">
-                <c:out value="${item.getName()}"></c:out></a>
-                <br/>
-        </c:forEach>
+        
+        
     </body>
 </html>

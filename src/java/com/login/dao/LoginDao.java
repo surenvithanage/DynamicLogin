@@ -63,10 +63,7 @@ public class LoginDao {
                     loginbean.setId(idDB);
                     loginbean.setRole(roleDB);
                     loginbean.setRoleId(roleId);
-                    rolePermission = roleDB;
-                    
-                    
-                    
+                    rolePermission = roleDB;    
                 }
             }
 

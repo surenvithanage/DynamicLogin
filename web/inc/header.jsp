@@ -8,5 +8,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#"><h4>Welcome <%=request.getAttribute("username").toString().toUpperCase() %></h4></a>
+  <a class="navbar-brand" href="#"><h4>Welcome ${username}</h4></a>
+  <span class="pull-right btn btn-default btn-sm" style="margin-top:10px;font-size: 10px;"><a href="<%=request.getContextPath()%>/logoutServlet">Logout</a></span>
 </nav>

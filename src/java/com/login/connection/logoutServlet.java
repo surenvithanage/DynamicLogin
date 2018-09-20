@@ -5,17 +5,9 @@
  */
 package com.login.connection;
 
-import com.login.bean.InterfaceBean;
-import com.login.bean.LoginBean;
-import com.login.dao.LoginDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author suren_v
  */
-public class LoginServlet extends HttpServlet {
+public class logoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,6 +32,17 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+          HttpSession session = request.getSession(false); //Fetch session object
+ 
+        if(session!=null) //If session is not null
+        {
+            session.removeAttribute("username");
+            session.invalidate(); //removes all session attributes bound to the session
+            request.setAttribute("errMessage", "You have logged out successfully");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+            requestDispatcher.forward(request, response);
+            System.out.println("Logged out");
+        }
         
     }
 
@@ -56,6 +59,8 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+      
     }
 
     /**
@@ -70,44 +75,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        ArrayList data;
-        Map<String ,String> x;
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        PrintWriter out = response.getWriter();  
-        
-        LoginBean loginBean = new LoginBean();
-        loginBean.setUsername(username);
-        loginBean.setPassword(password);
-         
-        LoginDao loginDao = new LoginDao();
-        
-        String role = loginDao.authenticateUser(loginBean);
-        
-         //Session
-        HttpSession session = request.getSession();
-        session.setAttribute("username",username);
-        request.setAttribute("username", username);
-        
-        //When using hashmap
-        //x = loginDao.Details();
-        
-        ArrayList<InterfaceBean> data1;
-        
-        data1 = loginDao.GetPages();
-        
-        request.setAttribute("data1", data1);
-       
-        String roleID = loginBean.getRoleId();
-        
-        session.setAttribute("roleID", roleID);
-        session.setAttribute("data1",data1);
-        
-       
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-       
-
     }
 
     /**

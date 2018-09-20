@@ -13,15 +13,28 @@
         <title>Deposit Page</title>
     </head>
     <body>
-        <jsp:include page="inc/sidebar.jsp" />
-         
-        <h1>DEPOSITS</h1>
-       
-                    <c:forEach var="item" items="${data}">
-                        <a href="<c:out value="${item.getUrl()}"></c:out>">
-                        <c:out value="${item.getName()}"></c:out></a>
-                        <br/>
-                    </c:forEach>
-
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <jsp:include page="inc/header.jsp"></jsp:include>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="sidebar">
+                    <jsp:include page="inc/sidebar.jsp" ></jsp:include>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <h1>DEPOSITS </h1><br/><br/>
+        
+                        <c:forEach var="item" items="${data}">
+                            <a class="btn btn-primary" href="<c:out value="${item.getUrl()}"></c:out>">
+                            <c:out value="${item.getName()}"></c:out></a>
+                            <br/><br/>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>   
+        </div>
     </body>
 </html>
